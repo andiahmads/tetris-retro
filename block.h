@@ -10,12 +10,17 @@ class Block {
 public:
   // constructor
   Block();
+
+  // gambar block
   void Draw();
-  int id; // representasi dari sel yang ditempati oleh block dalam grid 4x4
-          // untuk semua rotasi
-  map<int, vector<Position>>
-      cells; // atribut ini akan menjadai peta vektor yang akan
-             // menampung setiap cell yang ditempati
+
+  // representasi dari sel yang ditempati oleh block dalam grid 4x4
+  // untuk semua rotasi
+  int id;
+
+  // atribut ini akan menjadai peta vektor yang akan menampung setiap cell yang
+  // ditempati
+  map<int, vector<Position>> cells;
 
   // memindahkan posisi block
   void Move(int rows, int columns);
@@ -24,6 +29,14 @@ public:
   // mengembalikan sel yang ditempati dengan offset yang diterapkan dalam
   // vektor.
   vector<Position> GetCellPosition();
+
+  // rotasi block
+  void Rotate();
+
+  // undo rotasi block
+  // method ini digunakan untuk case, ketika posisi rotasi berada di ujung
+  // row/column, maka ketika di rotasi, cell block tersebut menjadi terpotong
+  void UndoRotation();
 
 private:
   int cellSize;      // mengetahui ukuran setiap cell block dalam pixel

@@ -26,12 +26,6 @@ void Block::Move(int rows, int columns) {
   // tambahkan setiap object dengan param
   rowOffset += rows;
   columnOffset += columns;
-
-  cout << "row = " << rows << endl;
-  cout << "column = " << columns << endl;
-
-  cout << "rowoffset = " << rowOffset << endl;
-  cout << "columnofsset = " << columnOffset << endl;
 }
 
 vector<Position> Block::GetCellPosition() {
@@ -50,4 +44,21 @@ vector<Position> Block::GetCellPosition() {
     movedTiles.push_back(newPos);
   }
   return movedTiles;
+}
+
+void Block::Rotate() {
+  rotationState++;
+
+  // check apakah jumlah rotasi melebihi batas rotasi
+  if (rotationState == (int)cells.size()) {
+    rotationState = 0;
+  }
+}
+
+void Block::UndoRotation() {
+  // atur rotasi blok ke sebelumnya
+  rotationState--;
+  if (rotationState == -1) {
+    rotationState = cells.size() - 1;
+  }
 }

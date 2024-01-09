@@ -1,10 +1,6 @@
 #include "game.h"
-#include "raylib.h"
-#include <algorithm>
 #include <iostream>
-#include <position.h>
 #include <random>
-#include <vector>
 using namespace std;
 
 Game::Game() {
@@ -15,7 +11,6 @@ Game::Game() {
 }
 
 Block Game::GetRandomBlock() {
-
   // jika block kosong
   if (blocks.empty()) {
     // isi kembali block
@@ -24,8 +19,8 @@ Block Game::GetRandomBlock() {
 
   // untuk mendapatkan nilai acak dari 0-6, dan digunakan untuk mengindeks
   // vektor blok.
-  int randomIndex = rand() % blocks.size();
-
+  random_device rd;
+  int randomIndex = rd() % blocks.size();
   // acak kemunculan block
   Block block = blocks[randomIndex];
 
@@ -37,9 +32,7 @@ Block Game::GetRandomBlock() {
 }
 
 vector<Block> Game::GetAllBlock() {
-  return {
-      IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock(),
-  };
+  return {IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 }
 
 void Game::Draw() {
@@ -61,12 +54,14 @@ void Game::HandleInput() {
   case KEY_DOWN:
     MoveBlockDown();
     break;
+  case KEY_UP:
+    RotateBlock();
+    break;
   }
 }
 
 void Game::MoveBlockLeft() {
   // jika keluar dari cell kiri, kembalikan lagi ke posisi column 1
-  cout << "keluar " << IsBlockOutside() << endl;
   currentBlock.Move(0, -1);
 
   if (IsBlockOutside()) {
@@ -100,4 +95,13 @@ bool Game::IsBlockOutside() {
     }
   }
   return false;
+}
+
+void Game::RotateBlock() {
+  currentBlock.Rotate();
+
+  // apakah block bergerak keluar jendela permainan setelah di rotasi
+  if (IsBlockOutside()) {
+    currentBlock.UndoRotation();
+  }
 }

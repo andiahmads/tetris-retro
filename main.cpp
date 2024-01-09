@@ -7,7 +7,7 @@ using namespace std;
 // 2.creating the grid -> done
 // 3.create th blocks -> done
 // 4.move the blocks -> done
-// 5.rotate the blocks -> on progress
+// 5.rotate the blocks -> done
 // 6.checking for collisions
 // 7.check for completed rows
 // 8.game over
