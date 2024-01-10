@@ -1,6 +1,8 @@
 #include "game.h"
 #include <iostream>
+#include <position.h>
 #include <random>
+#include <vector>
 using namespace std;
 
 Game::Game() {
@@ -64,7 +66,7 @@ void Game::MoveBlockLeft() {
   // jika keluar dari cell kiri, kembalikan lagi ke posisi column 1
   currentBlock.Move(0, -1);
 
-  if (IsBlockOutside()) {
+  if (IsBlockOutside() || !BlockFits()) {
     currentBlock.Move(0, 1);
   }
 }
@@ -73,15 +75,16 @@ void Game::MoveBlockRight() {
 
   currentBlock.Move(0, 1);
 
-  if (IsBlockOutside()) {
+  if (IsBlockOutside() || !BlockFits()) {
     currentBlock.Move(0, -1);
   }
 }
 
 void Game::MoveBlockDown() {
   currentBlock.Move(1, 0);
-  if (IsBlockOutside()) {
+  if (IsBlockOutside() || !BlockFits()) {
     currentBlock.Move(-1, 0);
+    LockBlock();
   }
 }
 
@@ -101,7 +104,37 @@ void Game::RotateBlock() {
   currentBlock.Rotate();
 
   // apakah block bergerak keluar jendela permainan setelah di rotasi
-  if (IsBlockOutside()) {
+  if (IsBlockOutside() || !BlockFits()) {
     currentBlock.UndoRotation();
   }
+}
+
+void Game::LockBlock() {
+  // dapatkan posisi saat ini dari block
+  vector<Position> tiles = currentBlock.GetCellPosition();
+
+  // simpan ID block di grid
+  for (Position item : tiles) {
+    grid.grid[item.row][item.column] = currentBlock.id;
+  }
+
+  // munculkan block baru pada layar
+  currentBlock = nextBlock;
+  nextBlock = GetRandomBlock();
+  grid.ClearFullRows();
+}
+
+bool Game::BlockFits() {
+  // mengambil posisi block saat ini
+  vector<Position> tiles = currentBlock.GetCellPosition();
+  for (Position item : tiles) {
+    // memeriksa apakah ada sel yang ditempati
+    if (!grid.IsCellEmpty(item.row, item.column)) {
+      // jika ada
+      return false;
+    }
+  }
+
+  // jika cell kosong
+  return true;
 }

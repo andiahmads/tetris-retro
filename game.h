@@ -16,6 +16,9 @@ public:
   // memindahkan posisi block
   void HandleInput();
 
+  // deteksi perpindahan block ke kebawah
+  void MoveBlockDown();
+
   Grid grid;
 
 private:
@@ -23,8 +26,6 @@ private:
   void MoveBlockLeft();
   // deteksi perpindahan block ke kekanan
   void MoveBlockRight();
-  // deteksi perpindahan block ke kebawah
-  void MoveBlockDown();
 
   // mengambil kembali seluruh block
   vector<Block> GetAllBlock();
@@ -35,6 +36,12 @@ private:
   // memeriksa apakah sebuah block berada diluar jendela
   // permainan.
   bool IsBlockOutside();
+
+  // mengunci posisi block jika sudah berada di cell terbawah.
+  void LockBlock();
+
+  // melihat apakah sel tersebut berada diatas sel kosong dalam grid atau tidak.
+  bool BlockFits();
 
   // abstraksi dari class block.h, berfungsi untuk rotasi block
   void RotateBlock();
