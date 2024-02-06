@@ -10,6 +10,7 @@ class Block {
 public:
   // constructor
   Block();
+  
 
   // gambar block
   void Draw();
@@ -18,7 +19,7 @@ public:
   // untuk semua rotasi
   int id;
 
-  // atribut ini akan menjadai peta vektor yang akan menampung setiap cell yang
+  // atribut ini akan menjadai peta vector yang akan menampung setiap cell yang
   // ditempati
   map<int, vector<Position>> cells;
 
@@ -27,7 +28,7 @@ public:
 
   // menghitung posisi sebenarnya dari setiap cell.
   // mengembalikan sel yang ditempati dengan offset yang diterapkan dalam
-  // vektor.
+  // vector.
   vector<Position> GetCellPosition();
 
   // rotasi block
